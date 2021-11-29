@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Child from './Child.svelte';
-	let name: string = 'Nelson';
+	let name = 'Svelte';
 	let inputs = creatObj(8);
-	let _refs = []
+	let _refs = [];
 	let value = 0;
 	$: if (inputs.filter(m => m.selected).length >= 0) {
 		value = reduceFunction();
@@ -36,16 +36,16 @@
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
+	<h2>Hello {name}!</h2>
 	<div style="display: flex; width: 100%">
 		{#each inputs as input, i}
 			<Child reset={resetList} bind:this={_refs[i]} bind:value={input.value} bind:selected={input.selected}/>
 		{/each}
 
 	</div>
-	<div>
+	<h1>
 		{value}
-	</div>
+	</h1>
 </main>
 
 <style>
