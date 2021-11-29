@@ -1,14 +1,14 @@
 <svelte:options accessors={true}/>
 <script lang="ts">
+
 	export let value;
 	export let reset;
 	export let selected = false;
-	let ref;
 	let isCtrlKey;
 
-	const onInput = e => {
-		console.log(e)
-		if(e.relatedTarget?.classList.contains('ctrl-active')) {
+	const onInput = (event) => {
+		const {relatedTarget, target} = event;
+		if(relatedTarget?.classList.contains('ctrl-active')) {
 			selected = true;
 			isCtrlKey = false;
 		} else {
@@ -16,16 +16,19 @@
 			isCtrlKey = false;
 			reset();
 		}
-		value = parseFloat(e.target.value)
+		value = parseFloat(target.value)
 	}
-	const onFocus = ev => {
-		selected = true;
-		if(isCtrlKey) {
-			
+	const onChange = e => {
+		if(selected) {
+			value =parseFloat(e.target.value)
 		}
 	}
-	const ctrlKey = ev => {
-		if (ev.ctrlKey) {
+
+	const onFocus = () => {
+		selected = true;
+	}
+	const ctrlKey = ({ctrlKey}) => {
+		if (ctrlKey) {
 			isCtrlKey = true;
 		} else {
 			isCtrlKey = false;
@@ -33,13 +36,13 @@
 	}
 </script>
 
-<input class:selected class:ctrl-active={isCtrlKey} class="item" type="number" value={value} on:change={onInput} bind:this={ref} on:blur={onInput} on:focus={onFocus} on:mousedown={ctrlKey} on:mouseup={ctrlKey}>
+<input class:selected class:ctrl-active={isCtrlKey} class="item" type="number" value={value} on:change={onChange} on:blur={onInput} on:focus={onFocus} on:mousedown={ctrlKey} on:mouseup={ctrlKey}>
 
 
 <style>
 	.item {
 		box-sizing: border-box;
-		width: 100%;
+		width:  100%;
 		border: 1px solid;
 	}
 	.item:focus-visible {
