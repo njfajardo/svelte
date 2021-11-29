@@ -4,7 +4,8 @@
 	let inputs = creatObj(8);
 	let _refs = [];
 	let value = 0;
-	$: if (inputs.filter(m => m.selected).length >= 0) {
+	$: filterList = inputs.filter(m => m.selected);
+	$: if ( filterList.length >= 0) {
 		value = reduceFunction();
 	}
 	function creatObj(count) {
@@ -22,9 +23,8 @@
 		return p;
 	}
 	const reduceFunction = () => {
-		const list = inputs.filter(m => m.selected).map(m => m.value);
-		if (list.length) {
-			return list.reduce((previousValue, currentValue) => previousValue + currentValue);
+		if (filterList.length) {
+			return filterList.map(m => m.value).reduce((previousValue, currentValue) => previousValue + currentValue);
 		} 
 		return 0;
 	}
